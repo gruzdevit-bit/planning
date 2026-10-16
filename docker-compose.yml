@@ -1,0 +1,13 @@
+services:
+  daily:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/data
+    environment:
+      DATA_DIR: /data
+      NEWS_URL: https://lenta.ru/rss/news
+      NEWS_TTL: "300"
+      NEWS_TIMEOUT: "5"
+    restart: unless-stopped
