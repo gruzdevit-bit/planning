@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ежедневник</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="top">
+    <span class="brand">Ежедневник<span class="dot">.</span></span>
+    <nav class="links">
+      <button type="button" class="help" id="open-settings">Настройки</button>
+      <a class="help" href="/help" target="_blank" rel="noopener">Инструкция</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="card" id="calendar-card" aria-label="Календарь">
+      <div class="chead">
+        <h2 id="month-title">Календарь</h2>
+        <div class="nav">
+          <button type="button" id="prev-month" aria-label="Предыдущий месяц">‹</button>
+          <button type="button" id="go-today">Сегодня</button>
+          <button type="button" id="next-month" aria-label="Следующий месяц">›</button>
+        </div>
+      </div>
+      <div class="cal" id="calendar">
+        <div class="dw">Пн</div><div class="dw">Вт</div><div class="dw">Ср</div><div class="dw">Чт</div><div class="dw">Пт</div><div class="dw">Сб</div><div class="dw">Вс</div>
+      </div>
+      <div class="legend">● — на этот день есть дела</div>
+      <div class="wnote" id="weather-note" role="status"></div>
+    </section>
+
+    <section class="card" id="tasks-card" aria-label="Дела">
+      <div class="dhead">
+        <div>
+          <h1 id="day-title">Дела</h1>
+          <div class="sub" id="day-sub"></div>
+          <div class="wline" id="day-weather" hidden></div>
+        </div>
+        <button type="button" class="btn" id="add-task">+ Новое дело</button>
+      </div>
+      <div id="task-list"></div>
+    </section>
+
+    <section class="card" id="news-card" aria-label="Новости">
+      <h2>Новости Lenta.ru</h2>
+      <div id="news-box"><div class="note">Загрузка новостей…</div></div>
+      <div class="note">Заголовок открывает новость на lenta.ru в новой вкладке</div>
+    </section>
+  </main>
+
+  <div class="overlay" id="modal" hidden>
+    <form class="modal" id="task-form" novalidate role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <h2><span id="modal-title">Новое дело</span><button type="button" class="x" id="modal-close" aria-label="Закрыть">✕</button></h2>
+      <div class="mb">
+        <label for="f-title">Название *</label>
+        <input class="f" id="f-title" type="text" maxlength="200" placeholder="Например, «Купить хлеб»" autocomplete="off">
+        <div class="errt" id="title-error" hidden>Название дела обязательно</div>
+      </div>
+      <div class="row">
+        <div>
+          <label for="f-date">Дата *</label>
+          <input class="f" id="f-date" type="date">
+        </div>
+        <div>
+          <label for="f-time">Время</label>
+          <input class="f" id="f-time" type="time">
+          <div class="hint">Необязательно</div>
+        </div>
+      </div>
+      <div>
+        <label for="f-desc">Описание</label>
+        <textarea class="f area" id="f-desc" maxlength="2000" placeholder="Необязательно"></textarea>
+      </div>
+      <div class="errt" id="form-error" hidden></div>
+      <div class="actions">
+        <button type="button" class="del" id="f-delete" hidden>Удалить</button>
+        <div class="r">
+          <button type="button" class="b1" id="f-cancel">Отмена</button>
+          <button type="submit" class="b2" id="f-save">Сохранить</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="overlay" id="settings-modal" hidden>
+    <form class="modal" id="settings-form" novalidate role="dialog" aria-modal="true" aria-labelledby="settings-title">
+      <h2><span id="settings-title">Настройки</span><button type="button" class="x" id="settings-close" aria-label="Закрыть">✕</button></h2>
+      <div class="mb">
+        <label for="f-city">Город</label>
+        <input class="f" id="f-city" type="text" maxlength="100" placeholder="Например, «Москва»" autocomplete="off">
+        <ul class="cities" id="city-list" hidden></ul>
+        <div class="errt" id="city-error" hidden></div>
+        <div class="hint">Начните вводить название и выберите город из списка</div>
+      </div>
+      <div class="actions">
+        <div class="r">
+          <button type="button" class="b1" id="settings-cancel">Отмена</button>
+          <button type="submit" class="b2" id="settings-save">Сохранить</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
